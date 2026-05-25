@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Runtime.Serialization.Json;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace CurrencyExchangeService
 {
     public class Service : IService
     {
         private static readonly HttpClient client = new HttpClient();
+        private const string ConnectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=CurrencyExchangeDB;Integrated Security=True";
 
         public double GetExchangeRate(string currencyCode)
         {
@@ -46,7 +48,11 @@ namespace CurrencyExchangeService
                     return -1;
 
                 double amountInPln = amount * fromRate;
-                return amountInPln / toRate;
+                double result = amountInPln / toRate;
+
+                SaveTransaction(fromCurrency, toCurrency, amount, fromRate / toRate, result);
+
+                return result;
             }
             catch (Exception)
             {
@@ -61,6 +67,30 @@ namespace CurrencyExchangeService
                 "USD", "EUR", "GBP", "CHF", "JPY",
                 "CAD", "AUD", "NOK", "SEK", "DKK"
             };
+        }
+
+        private void SaveTransaction(string fromCurrency, string toCurrency, double amount, double rate, double result)
+        {
+            try
+            {
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    connection.Open();
+                    string query = "INSERT INTO Transactions (UserId, FromCurrency, ToCurrency, Amount, ExchangeRate, Result) VALUES (1, @from, @to, @amount, @rate, @result)";
+                    using (var command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@from", fromCurrency);
+                        command.Parameters.AddWithValue("@to", toCurrency);
+                        command.Parameters.AddWithValue("@amount", amount);
+                        command.Parameters.AddWithValue("@rate", rate);
+                        command.Parameters.AddWithValue("@result", result);
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+            }
         }
     }
 
