@@ -21,3 +21,4 @@ namespace CurrencyExchangeService
 // Lab3: Conversion methods 
 // Lab5: Architecture 
 // Lab6: Business logic 
+// Lab7: API completed 
