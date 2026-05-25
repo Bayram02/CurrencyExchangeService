@@ -18,3 +18,4 @@ namespace CurrencyExchangeService
         List<string> GetAvailableCurrencies();
     }
 }// Lab2: NBP API integration 
+// Lab3: Conversion methods 
