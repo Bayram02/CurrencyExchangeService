@@ -1,8 +1,7 @@
 <Solution>
-  <Configurations>
-    <BuildType Name="Debug" />
-  </Configurations>
+  <Project Path="CurrencyExchangeClient/CurrencyExchangeClient.csproj" />
   <Project Path="CurrencyExchangeService/" Type="Website" DisplayName="CurrencyExchangeService">
+    <BuildType Project="Debug" />
     <Properties Name="WebsiteProperties">
       <Property Name="Debug.AspNetCompiler.Debug" Value="&quot;True&quot;" />
       <Property Name="Debug.AspNetCompiler.FixedNames" Value="&quot;false&quot;" />
