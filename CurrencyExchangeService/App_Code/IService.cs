@@ -17,4 +17,4 @@ namespace CurrencyExchangeService
         [OperationContract]
         List<string> GetAvailableCurrencies();
     }
-}
+}// Lab2: NBP API integration 
