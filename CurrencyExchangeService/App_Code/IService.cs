@@ -19,3 +19,4 @@ namespace CurrencyExchangeService
     }
 }// Lab2: NBP API integration 
 // Lab3: Conversion methods 
+// Lab5: Architecture 
